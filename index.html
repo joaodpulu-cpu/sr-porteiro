@@ -6,6 +6,10 @@
   <title>Sr. Porteiro</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -13,39 +17,35 @@
       color: #222;
     }
 
-    .topo {
+    header {
       background: #111827;
       color: white;
-      padding: 25px 20px;
       text-align: center;
+      padding: 25px 15px;
     }
 
-    .topo h1 {
+    header h1 {
       margin: 0;
       font-size: 30px;
     }
 
-    .topo p {
+    header p {
       margin: 8px 0 0;
       opacity: 0.8;
     }
 
-    .conteudo {
-      padding: 20px;
+    main {
       max-width: 500px;
       margin: auto;
+      padding: 18px;
     }
 
     .card {
       background: white;
       border-radius: 16px;
       padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    }
-
-    .card h2 {
-      margin-top: 0;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
     }
 
     .status {
@@ -54,24 +54,39 @@
       justify-content: space-between;
     }
 
-    .bolinha {
-      width: 14px;
-      height: 14px;
-      background: #22c55e;
+    .online {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: bold;
+    }
+
+    .dot {
+      width: 13px;
+      height: 13px;
       border-radius: 50%;
-      display: inline-block;
-      margin-right: 8px;
+      background: #22c55e;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-top: 10px;
     }
 
     button {
       width: 100%;
-      padding: 15px;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 10px;
       background: #111827;
       color: white;
       font-size: 16px;
-      margin-top: 10px;
+      font-weight: bold;
     }
 
     button:active {
@@ -83,67 +98,178 @@
       padding: 12px;
       border-radius: 10px;
       margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .remover {
+      background: #dc2626;
+      width: auto;
+      padding: 8px 12px;
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .vazio {
+      color: #6b7280;
+      margin-bottom: 0;
+    }
+
+    .bloqueio {
+      text-align: center;
+      padding: 15px;
+      border-radius: 12px;
+      background: #ecfdf5;
+      color: #166534;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="topo">
-    <h1>🚪 Sr. Porteiro</h1>
-    <p>Seu celular, protegido contra chamadas indesejadas</p>
-  </div>
+<header>
+  <h1>🚪 Sr. Porteiro</h1>
+  <p>Proteção contra chamadas indesejadas</p>
+</header>
 
-  <div class="conteudo">
+<main>
 
-    <div class="card">
-      <div class="status">
-        <div>
-          <h2>Proteção</h2>
-          <span>
-            <span class="bolinha"></span>
-            Ativa
-          </span>
+  <div class="card">
+    <div class="status">
+      <div>
+        <h2>Proteção</h2>
+
+        <div class="online">
+          <span class="dot"></span>
+          Ativa
         </div>
       </div>
-
-      <p>
-        O Sr. Porteiro permite chamadas apenas de números
-        que você escolher.
-      </p>
-
-      <button onclick="ativarProtecao()">
-        Ativar proteção
-      </button>
     </div>
 
-    <div class="card">
-      <h2>📞 Chamadas bloqueadas</h2>
+    <p>
+      O Sr. Porteiro permite que você controle quais números
+      poderão entrar em contato.
+    </p>
 
-      <div class="numero">
-        Nenhuma chamada bloqueada ainda.
-      </div>
+    <div class="bloqueio">
+      🛡️ Proteção ativada
     </div>
-
-    <div class="card">
-      <h2>⚙️ Configurações</h2>
-
-      <button onclick="alert('Em breve: números permitidos')">
-        Números permitidos
-      </button>
-
-      <button onclick="alert('Em breve: histórico de chamadas')">
-        Histórico de chamadas
-      </button>
-    </div>
-
   </div>
 
-  <script>
-    function ativarProtecao() {
-      alert("🚪 Sr. Porteiro está ativando a proteção!");
+  <div class="card">
+    <h2>📞 Números autorizados</h2>
+
+    <input
+      type="tel"
+      id="numero"
+      placeholder="Digite o número"
+    >
+
+    <button onclick="adicionarNumero()">
+      ➕ Autorizar número
+    </button>
+
+    <div id="lista">
+      <p class="vazio">
+        Nenhum número autorizado ainda.
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🚫 Chamadas bloqueadas</h2>
+
+    <p id="bloqueadas">
+      Nenhuma chamada bloqueada.
+    </p>
+  </div>
+
+</main>
+
+<script>
+
+  let numeros = JSON.parse(
+    localStorage.getItem("numerosAutorizados")
+  ) || [];
+
+  function mostrarNumeros() {
+
+    const lista = document.getElementById("lista");
+
+    if (numeros.length === 0) {
+      lista.innerHTML =
+        '<p class="vazio">Nenhum número autorizado ainda.</p>';
+      return;
     }
-  </script>
+
+    lista.innerHTML = "";
+
+    numeros.forEach(function(numero, indice) {
+
+      const item = document.createElement("div");
+
+      item.className = "numero";
+
+      item.innerHTML = `
+        <span>📱 ${numero}</span>
+        <button class="remover"
+          onclick="removerNumero(${indice})">
+          Remover
+        </button>
+      `;
+
+      lista.appendChild(item);
+
+    });
+  }
+
+  function adicionarNumero() {
+
+    const campo = document.getElementById("numero");
+
+    const numero = campo.value.trim();
+
+    if (numero === "") {
+      alert("Digite um número.");
+      return;
+    }
+
+    if (numeros.includes(numero)) {
+      alert("Esse número já está autorizado.");
+      return;
+    }
+
+    numeros.push(numero);
+
+    localStorage.setItem(
+      "numerosAutorizados",
+      JSON.stringify(numeros)
+    );
+
+    campo.value = "";
+
+    mostrarNumeros();
+
+    alert("✅ Número autorizado!");
+  }
+
+  function removerNumero(indice) {
+
+    numeros.splice(indice, 1);
+
+    localStorage.setItem(
+      "numerosAutorizados",
+      JSON.stringify(numeros)
+    );
+
+    mostrarNumeros();
+  }
+
+  mostrarNumeros();
+
+</script>
 
 </body>
-  </html>
+</html>
