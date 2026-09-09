@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.telecom.Call;
 import android.telecom.CallScreeningService;
+import android.util.Log;
 
 public class SenhorPorteiroCallService extends CallScreeningService {
 
@@ -12,6 +13,7 @@ public class SenhorPorteiroCallService extends CallScreeningService {
     public void onScreenCall(Call.Details callDetails) {
 
         Uri handle = callDetails.getHandle();
+        Log.d("SrPorteiroTESTE", "handle recebido = " + handle + " | presentation = " + callDetails.getHandlePresentation());
 
         Excecoes excecoes = new Excecoes(this);
 

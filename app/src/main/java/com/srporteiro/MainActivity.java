@@ -1,6 +1,7 @@
 package com.srporteiro;
 
 import android.app.Activity;
+import android.app.role.RoleManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.content.Intent;
@@ -428,6 +429,34 @@ public class MainActivity extends Activity {
     }
 
     private void abrirConfiguracaoChamadas() {
+
+        if (android.os.Build.VERSION.SDK_INT >= 29) {
+
+            RoleManager roleManager =
+                    (RoleManager) getSystemService(ROLE_SERVICE);
+
+            if (roleManager != null &&
+                    roleManager.isRoleAvailable(RoleManager.ROLE_CALL_SCREENING)) {
+
+                if (!roleManager.isRoleHeld(RoleManager.ROLE_CALL_SCREENING)) {
+
+                    Intent intent = roleManager.createRequestRoleIntent(
+                            RoleManager.ROLE_CALL_SCREENING
+                    );
+
+                    startActivityForResult(intent, 1);
+
+                } else {
+                    Toast.makeText(
+                            this,
+                            "Senhor Porteiro já está ativado.",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+
+                return;
+            }
+        }
 
         Intent intent = new Intent(
                 "android.telecom.action.CHANGE_DEFAULT_SCREENING_APP"
