@@ -4,3 +4,9 @@ app/build/
 local.properties
 *.apk
 *.aab
+keystore.properties
+*.bak
+*.v01
+*.v02-base
+*.backup2
+*.antes-assinatura
