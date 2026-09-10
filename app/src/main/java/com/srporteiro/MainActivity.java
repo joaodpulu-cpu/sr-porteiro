@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -34,12 +35,19 @@ public class MainActivity extends Activity {
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setGravity(Gravity.CENTER);
         layout.setPadding(40, 40, 40, 40);
-        layout.setBackgroundColor(Color.WHITE);
+        layout.setBackgroundColor(Color.rgb(10, 31, 68));
+
+
+        ImageView logo = new ImageView(this);
+        logo.setImageResource(R.drawable.logo_senhor_porteiro);
+        LinearLayout.LayoutParams logoParams = new LinearLayout.LayoutParams(220, 220);
+        logoParams.setMargins(0, 0, 0, 20);
+        logo.setLayoutParams(logoParams);
 
         TextView titulo = new TextView(this);
-        titulo.setText("🚪 SENHOR PORTEIRO");
+        titulo.setText("SENHOR PORTEIRO");
         titulo.setTextSize(28);
-        titulo.setTextColor(Color.rgb(25, 118, 210));
+        titulo.setTextColor(Color.WHITE);
         titulo.setGravity(Gravity.CENTER);
 
         TextView mensagem = new TextView(this);
@@ -48,25 +56,30 @@ public class MainActivity extends Activity {
                 "Se não está nos seus contatos, o Senhor Porteiro não deixa tocar."
         );
         mensagem.setTextSize(18);
-        mensagem.setTextColor(Color.DKGRAY);
+        mensagem.setTextColor(Color.rgb(220, 230, 245));
         mensagem.setGravity(Gravity.CENTER);
 
         Button configurar = new Button(this);
         configurar.setText("CONFIGURAR SENHOR PORTEIRO");
+        estilizarBotao(configurar);
         configurar.setOnClickListener(v -> configurarAplicativo());
 
         Button liberarNumero = new Button(this);
         liberarNumero.setText("🔓 LIBERAR ESTE NÚMERO");
+        estilizarBotao(liberarNumero);
         liberarNumero.setOnClickListener(v -> mostrarLiberarNumero());
 
         Button liberarDesconhecidos = new Button(this);
         liberarDesconhecidos.setText("🌐 LIBERAR DESCONHECIDOS");
+        estilizarBotao(liberarDesconhecidos);
         liberarDesconhecidos.setOnClickListener(v -> mostrarDuracoesDesconhecidos());
 
         Button excecoesAtivas = new Button(this);
         excecoesAtivas.setText("📋 EXCEÇÕES ATIVAS");
+        estilizarBotao(excecoesAtivas);
         excecoesAtivas.setOnClickListener(v -> mostrarExcecoesAtivas());
 
+        layout.addView(logo);
         layout.addView(titulo);
         layout.addView(mensagem);
         layout.addView(configurar);
@@ -89,9 +102,12 @@ public class MainActivity extends Activity {
         );
         instrucao.setTextSize(18);
         instrucao.setGravity(Gravity.CENTER);
+        instrucao.setTextColor(Color.rgb(220, 230, 245));
 
         EditText numero = new EditText(this);
         numero.setHint("(XX) XXXXX-XXXX");
+        numero.setTextColor(Color.WHITE);
+        numero.setHintTextColor(Color.rgb(170, 190, 215));
         numero.setInputType(android.text.InputType.TYPE_CLASS_PHONE);
 
         layout.addView(titulo);
@@ -102,6 +118,11 @@ public class MainActivity extends Activity {
 
         Button voltar = new Button(this);
         voltar.setText("VOLTAR");
+        voltar.setTextColor(Color.WHITE);
+        voltar.setBackgroundResource(R.drawable.botao_secundario);
+        LinearLayout.LayoutParams voltarParams = new LinearLayout.LayoutParams(-1, -2);
+        voltarParams.setMargins(0, 10, 0, 0);
+        voltar.setLayoutParams(voltarParams);
         voltar.setOnClickListener(v -> mostrarTela());
 
         layout.addView(voltar);
@@ -115,21 +136,25 @@ public class MainActivity extends Activity {
 
         Button trinta = new Button(this);
         trinta.setText("30 MINUTOS");
+        estilizarBotao(trinta);
         trinta.setOnClickListener(v ->
                 liberarNumero(numero.getText().toString(), 30 * 60 * 1000L));
 
         Button umaHora = new Button(this);
         umaHora.setText("1 HORA");
+        estilizarBotao(umaHora);
         umaHora.setOnClickListener(v ->
                 liberarNumero(numero.getText().toString(), 60 * 60 * 1000L));
 
         Button quatroHoras = new Button(this);
         quatroHoras.setText("4 HORAS");
+        estilizarBotao(quatroHoras);
         quatroHoras.setOnClickListener(v ->
                 liberarNumero(numero.getText().toString(), 4 * 60 * 60 * 1000L));
 
         Button umDia = new Button(this);
         umDia.setText("1 DIA");
+        estilizarBotao(umDia);
         umDia.setOnClickListener(v ->
                 liberarNumero(numero.getText().toString(), 24 * 60 * 60 * 1000L));
 
@@ -170,13 +195,13 @@ public class MainActivity extends Activity {
 
         TextView aviso = new TextView(this);
         aviso.setText(
-                "ATENÇÃO\n\n" +
+                "⚠️ ATENÇÃO\n" +
                 "Durante esse período, números que não estão " +
                 "nos seus contatos poderão ligar normalmente."
         );
         aviso.setTextSize(18);
         aviso.setGravity(Gravity.CENTER);
-        aviso.setTextColor(Color.DKGRAY);
+        aviso.setTextColor(Color.rgb(220, 230, 245));
 
         layout.addView(titulo);
         layout.addView(aviso);
@@ -185,6 +210,11 @@ public class MainActivity extends Activity {
 
         Button voltar = new Button(this);
         voltar.setText("VOLTAR");
+        voltar.setTextColor(Color.WHITE);
+        voltar.setBackgroundResource(R.drawable.botao_secundario);
+        LinearLayout.LayoutParams voltarParams = new LinearLayout.LayoutParams(-1, -2);
+        voltarParams.setMargins(0, 10, 0, 0);
+        voltar.setLayoutParams(voltarParams);
         voltar.setOnClickListener(v -> mostrarTela());
 
         layout.addView(voltar);
@@ -196,21 +226,25 @@ public class MainActivity extends Activity {
 
         Button trinta = new Button(this);
         trinta.setText("30 MINUTOS");
+        estilizarBotao(trinta);
         trinta.setOnClickListener(v ->
                 liberarDesconhecidos(30 * 60 * 1000L));
 
         Button umaHora = new Button(this);
         umaHora.setText("1 HORA");
+        estilizarBotao(umaHora);
         umaHora.setOnClickListener(v ->
                 liberarDesconhecidos(60 * 60 * 1000L));
 
         Button quatroHoras = new Button(this);
         quatroHoras.setText("4 HORAS");
+        estilizarBotao(quatroHoras);
         quatroHoras.setOnClickListener(v ->
                 liberarDesconhecidos(4 * 60 * 60 * 1000L));
 
         Button umDia = new Button(this);
         umDia.setText("1 DIA");
+        estilizarBotao(umDia);
         umDia.setOnClickListener(v ->
                 liberarDesconhecidos(24 * 60 * 60 * 1000L));
 
@@ -262,13 +296,18 @@ public class MainActivity extends Activity {
             );
 
             texto.setTextSize(18);
-            texto.setTextColor(Color.DKGRAY);
+            texto.setTextColor(Color.rgb(220, 230, 245));
             texto.setGravity(Gravity.CENTER);
 
             layout.addView(texto);
 
             Button cancelar = new Button(this);
             cancelar.setText("❌ CANCELAR LIBERAÇÃO");
+            cancelar.setTextColor(Color.WHITE);
+            cancelar.setBackgroundResource(R.drawable.botao_secundario);
+            LinearLayout.LayoutParams cancelarParams = new LinearLayout.LayoutParams(-1, -2);
+            cancelarParams.setMargins(0, 10, 0, 0);
+            cancelar.setLayoutParams(cancelarParams);
 
             cancelar.setOnClickListener(v -> {
 
@@ -298,13 +337,18 @@ public class MainActivity extends Activity {
             );
 
             texto.setTextSize(18);
-            texto.setTextColor(Color.DKGRAY);
+            texto.setTextColor(Color.rgb(220, 230, 245));
             texto.setGravity(Gravity.CENTER);
 
             layout.addView(texto);
 
             Button bloquearNovamente = new Button(this);
             bloquearNovamente.setText("🔒 BLOQUEAR NOVAMENTE");
+            bloquearNovamente.setTextColor(Color.WHITE);
+            bloquearNovamente.setBackgroundResource(R.drawable.botao_secundario);
+            LinearLayout.LayoutParams bloquearParams = new LinearLayout.LayoutParams(-1, -2);
+            bloquearParams.setMargins(0, 10, 0, 0);
+            bloquearNovamente.setLayoutParams(bloquearParams);
 
             bloquearNovamente.setOnClickListener(v -> {
 
@@ -331,7 +375,7 @@ public class MainActivity extends Activity {
             );
 
             vazio.setTextSize(18);
-            vazio.setTextColor(Color.DKGRAY);
+            vazio.setTextColor(Color.rgb(220, 230, 245));
             vazio.setGravity(Gravity.CENTER);
 
             layout.addView(vazio);
@@ -339,6 +383,11 @@ public class MainActivity extends Activity {
 
         Button voltar = new Button(this);
         voltar.setText("VOLTAR");
+        voltar.setTextColor(Color.WHITE);
+        voltar.setBackgroundResource(R.drawable.botao_secundario);
+        LinearLayout.LayoutParams voltarParams = new LinearLayout.LayoutParams(-1, -2);
+        voltarParams.setMargins(0, 10, 0, 0);
+        voltar.setLayoutParams(voltarParams);
         voltar.setOnClickListener(v -> mostrarTela());
 
         layout.addView(voltar);
@@ -394,17 +443,34 @@ public class MainActivity extends Activity {
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setGravity(Gravity.CENTER);
         layout.setPadding(40, 40, 40, 40);
-        layout.setBackgroundColor(Color.WHITE);
+        layout.setBackgroundColor(Color.rgb(10, 31, 68));
 
         return layout;
     }
 
+    private void estilizarBotao(Button botao) {
+        botao.setTextColor(Color.WHITE);
+        botao.setTextSize(16);
+        botao.setAllCaps(false);
+        botao.setBackgroundResource(R.drawable.botao_principal);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+        params.setMargins(0, 6, 0, 6);
+        botao.setLayoutParams(params);
+    }
+
     private TextView criarTitulo(String texto) {
+
+
+        ImageView logo = new ImageView(this);
+        logo.setImageResource(R.drawable.logo_senhor_porteiro);
+        LinearLayout.LayoutParams logoParams = new LinearLayout.LayoutParams(220, 220);
+        logoParams.setMargins(0, 0, 0, 20);
+        logo.setLayoutParams(logoParams);
 
         TextView titulo = new TextView(this);
         titulo.setText(texto);
         titulo.setTextSize(26);
-        titulo.setTextColor(Color.rgb(25, 118, 210));
+        titulo.setTextColor(Color.WHITE);
         titulo.setGravity(Gravity.CENTER);
 
         return titulo;
