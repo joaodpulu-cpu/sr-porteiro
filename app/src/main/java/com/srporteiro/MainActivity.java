@@ -21,10 +21,21 @@ import java.util.Map;
 public class MainActivity extends Activity {
 
     private static final int PERMISSAO_CONTATOS = 100;
+    private static final int PERMISSAO_NOTIFICACOES = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (android.os.Build.VERSION.SDK_INT >= 33 &&
+                checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    PERMISSAO_NOTIFICACOES
+            );
+        }
 
         mostrarTela();
     }
